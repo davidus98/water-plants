@@ -30,9 +30,8 @@ export default function Home() {
   };
 
   const waterPlant = (index) => {
-    const cooldown = 5 * 60 * 1000; // 5 minutes
     const nowTime = Date.now();
-    const audio = new Audio("/sounds/water.mp3");
+    const audio = new Audio(import.meta.env.BASE_URL + "sounds/water.mp3");
     audio.play();
 
     const updatedPlants = [...plants];
