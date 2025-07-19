@@ -5,4 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   base: "/water-plants/",
   plugins: [react()],
+  test: {
+    environment: "node",
+  },
 });

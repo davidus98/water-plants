@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import starterPlantImage from "../assets/plant_starter.png";
 import "./Home.css";
+import { formatTime, isCooldownOver, timeLeft } from "../utils/time";
 
 export default function Home() {
   const [plants, setPlants] = useState(() => {
@@ -37,25 +38,6 @@ export default function Home() {
     const updatedPlants = [...plants];
     updatedPlants[index].lastWateredAt = nowTime;
     setPlants(updatedPlants);
-  };
-
-  const formatTime = (ms) => {
-    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}m ${seconds}s`;
-  };
-
-  const isCooldownOver = (lastWateredAt) => {
-    if (!lastWateredAt) return true;
-    const cooldown = 5 * 60 * 1000;
-    return now - new Date(lastWateredAt) >= cooldown;
-  };
-
-  const timeLeft = (lastWateredAt) => {
-    if (!lastWateredAt) return 0;
-    const cooldown = 5 * 60 * 1000;
-    return cooldown - (now - new Date(lastWateredAt));
   };
 
   return (
@@ -98,8 +80,8 @@ export default function Home() {
           <p style={{ color: "lightgray" }}>No plants yet. Start growing!</p>
         ) : (
           plants.map((plant, index) => {
-            const canWater = isCooldownOver(plant.lastWateredAt);
-            const remaining = timeLeft(plant.lastWateredAt);
+            const canWater = isCooldownOver(now, plant.lastWateredAt);
+            const remaining = timeLeft(now, plant.lastWateredAt);
 
             return (
               <div key={index} style={{ margin: "20px" }}>
